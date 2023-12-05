@@ -1,0 +1,46 @@
+<h3>Welcome to {{ hotelname }}</h3>
+<div [hidden]="hiderooms">
+  Number of rooms:
+  <div
+    [ngStyle]="{ color: rooms.availablRooms ? 'green' : 'red' }"
+    [innerText]="numberofrooms"
+  ></div>
+</div>
+
+{{ rooms.availablRooms ?? "no rooms" }}
+
+<!--{{roomList | json}}-->
+
+<div *ngIf="rooms.availablRooms > 0">
+  Rooms List:
+  <table>
+    <tr>
+      <th>index</th>
+      <th>even/odd</th>
+      <th>Room Number</th>
+      <th>Room type</th>
+      <th>Room Price</th>
+      <th>Room amenities</th>
+      <th>Checkin time</th>
+    </tr>
+    <tr
+      [ngClass]="e ? 'even' : 'odd'"
+      *ngFor="
+        let room of roomList | slice : 0 : 2;
+        let e = even;
+        let o = odd;
+        let i = index
+      "
+    >
+      <td>{{ i }}</td>
+      <td>{{ e ? "even" : "odd" }}</td>
+      <td>{{ room.roomNo }}</td>
+      <td>{{ room.roomType }}</td>
+      <td>{{ room.price | currency : "INR" }}</td>
+      <td>{{ room.amenities | titlecase }}</td>
+      <td>{{ room.checkinTime | date : "short" }}</td>
+    </tr>
+  </table>
+</div>
+
+<button (click)="toggle()">Toggle</button>
